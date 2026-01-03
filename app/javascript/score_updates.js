@@ -1,7 +1,36 @@
 // Simple JS module to handle score increment/decrement via Fetch
 document.addEventListener('turbo:load', () => {
   attachScoreButtons()
+  attachCompleteToggles()
 })
+
+function attachCompleteToggles() {
+  document.querySelectorAll('.complete-toggle').forEach(input => {
+    input.addEventListener('change', async (e) => {
+      const gameId = input.dataset.gameId
+      const token = document.querySelector('meta[name="csrf-token"]')?.content
+      try {
+        const resp = await fetch(`/games/${gameId}/toggle_complete`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-Token': token
+          }
+        })
+        if (!resp.ok) throw new Error('Network response was not ok')
+        const data = await resp.json()
+        if (data.complete === undefined) throw new Error('Invalid response')
+        // ensure checkbox matches server value
+        input.checked = !!data.complete
+      } catch (err) {
+        console.error('Toggle complete failed', err)
+        // revert checkbox on failure
+        input.checked = !input.checked
+      }
+    })
+  })
+}
 
 function attachScoreButtons() {
   document.querySelectorAll('.score-controls').forEach(node => {

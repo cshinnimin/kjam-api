@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch :decrement_home_half2
       patch :increment_away_half2
       patch :decrement_away_half2
+      patch :toggle_complete
     end
   end
   root "games#index"

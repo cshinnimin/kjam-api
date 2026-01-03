@@ -39,6 +39,16 @@ class GamesController < ApplicationController
     modify_away_half2(-1)
   end
 
+  def toggle_complete
+    game = Game.find(params[:id])
+    game.complete = !game.complete
+    if game.save
+      render json: { complete: game.complete }
+    else
+      render json: { errors: game.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def modify_home_half1(delta)
