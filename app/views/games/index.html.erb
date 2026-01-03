@@ -9,13 +9,19 @@
 
       <div class="team-group">
         <div class="team-entry">
-          <span class="team-circle" style="background-color: <%= game.home.colour %>"></span>
+          <span class="team-badge">
+            <span class="team-score"><%= (game.home_score_half_1 + game.home_score_half_2) %></span>
+            <span class="team-circle" style="background-color: <%= game.home.colour %>"></span>
+          </span>
           <span class="team-name"><%= game.home.name %></span>
         </div>
         <div class="vs">vs</div>
         <div class="team-entry away">
           <span class="team-name"><%= game.away.name %></span>
-          <span class="team-circle" style="background-color: <%= game.away.colour %>"></span>
+          <span class="team-badge">
+            <span class="team-circle" style="background-color: <%= game.away.colour %>"></span>
+            <span class="team-score"><%= (game.away_score_half_1 + game.away_score_half_2) %></span>
+          </span>
         </div>
       </div>
       

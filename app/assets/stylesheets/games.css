@@ -45,6 +45,20 @@
   flex: 0 0 28px;
 }
 
+/* Badge groups the circle and score so they vertically align even when the name wraps */
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-score {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-block;
+}
+
 .team-name {
   font-size: 1rem;
   font-weight: 500;
