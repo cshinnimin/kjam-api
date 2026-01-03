@@ -23,6 +23,21 @@ function attachCompleteToggles() {
         if (data.complete === undefined) throw new Error('Invalid response')
         // ensure checkbox matches server value
         input.checked = !!data.complete
+        // update UI: hide or show score buttons but keep layout spacing
+        try {
+          const gameShow = input.closest('.game-show')
+          if (gameShow) {
+            gameShow.querySelectorAll('.score-btn').forEach(btn => {
+              if (data.complete) {
+                btn.classList.add('hidden-when-complete')
+              } else {
+                btn.classList.remove('hidden-when-complete')
+              }
+            })
+          }
+        } catch (e) {
+          // ignore UI toggle errors
+        }
       } catch (err) {
         console.error('Toggle complete failed', err)
         // revert checkbox on failure

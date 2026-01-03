@@ -14,33 +14,33 @@
   </div>
   <div class="half-row" data-half="1">
     <div class="score-controls home-controls" data-game-id="<%= @game.id %>">
-      <button class="score-btn decrement" data-action="decrement-home-one">−</button>
+      <button class="score-btn decrement <%= 'hidden-when-complete' if @game.complete %>" data-action="decrement-home-one">−</button>
       <div class="score-value" data-home-score><%= @game.home_score_half_1 %></div>
-      <button class="score-btn increment" data-action="increment-home-one">+</button>
+      <button class="score-btn increment <%= 'hidden-when-complete' if @game.complete %>" data-action="increment-home-one">+</button>
     </div>
 
     <div class="half-label">First Half</div>
 
     <div class="score-controls away-controls" data-game-id="<%= @game.id %>">
-      <button class="score-btn decrement" data-action="decrement-away-one">−</button>
+      <button class="score-btn decrement <%= 'hidden-when-complete' if @game.complete %>" data-action="decrement-away-one">−</button>
       <div class="score-value" data-away-score><%= @game.away_score_half_1 %></div>
-      <button class="score-btn increment" data-action="increment-away-one">+</button>
+      <button class="score-btn increment <%= 'hidden-when-complete' if @game.complete %>" data-action="increment-away-one">+</button>
     </div>
   </div>
 
   <div class="half-row" data-half="2">
     <div class="score-controls home-controls" data-game-id="<%= @game.id %>">
-      <button class="score-btn decrement" data-action="decrement-home-two">−</button>
+      <button class="score-btn decrement <%= 'hidden-when-complete' if @game.complete %>" data-action="decrement-home-two">−</button>
       <div class="score-value" data-home-score><%= @game.home_score_half_2 %></div>
-      <button class="score-btn increment" data-action="increment-home-two">+</button>
+      <button class="score-btn increment <%= 'hidden-when-complete' if @game.complete %>" data-action="increment-home-two">+</button>
     </div>
 
     <div class="half-label">First Half</div>
 
     <div class="score-controls away-controls" data-game-id="<%= @game.id %>">
-      <button class="score-btn decrement" data-action="decrement-away-two">−</button>
+      <button class="score-btn decrement <%= 'hidden-when-complete' if @game.complete %>" data-action="decrement-away-two">−</button>
       <div class="score-value" data-away-score><%= @game.away_score_half_2 %></div>
-      <button class="score-btn increment" data-action="increment-away-two">+</button>
+      <button class="score-btn increment <%= 'hidden-when-complete' if @game.complete %>" data-action="increment-away-two">+</button>
     </div>
   </div>
 
