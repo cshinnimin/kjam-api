@@ -2,7 +2,7 @@
 
 <div class="game-list">
   <% @games.each do |game| %>
-    <%= link_to game_path(game), class: 'game-item' do %>
+    <%= link_to game_path(game), class: "game-item #{'completed' if game.complete?}" do %>
       <div class="team-group">
         <div class="team-entry">
           <span class="team-circle" style="background-color: <%= game.home.colour %>"></span>

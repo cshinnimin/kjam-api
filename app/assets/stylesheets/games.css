@@ -133,3 +133,10 @@
 .switch input:checked + .slider:before { transform: translateX(22px); }
 
 
+/* Mild gray background for completed games */
+.game-item.completed {
+  background: #e0e0e0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+
