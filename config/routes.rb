@@ -11,6 +11,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :games, only: [:index, :show]
+  resources :games, only: [:index, :show] do
+    member do
+      patch :increment_home_half1
+      patch :decrement_home_half1
+      patch :increment_away_half1
+      patch :decrement_away_half1
+    end
+  end
   root "games#index"
 end
