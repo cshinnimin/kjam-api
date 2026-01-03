@@ -3,6 +3,10 @@
 <div class="game-list">
   <% @games.each do |game| %>
     <%= link_to game_path(game), class: "game-item #{'completed' if game.complete?}" do %>
+      <div class="game-meta">
+        <small class="game-time"><%= game.game_time.strftime('%A, %l:%M %p') rescue '' %></small>
+      </div>
+
       <div class="team-group">
         <div class="team-entry">
           <span class="team-circle" style="background-color: <%= game.home.colour %>"></span>
@@ -10,13 +14,11 @@
         </div>
         <div class="vs">vs</div>
         <div class="team-entry away">
-          <span class="team-circle" style="background-color: <%= game.away.colour %>"></span>
           <span class="team-name"><%= game.away.name %></span>
+          <span class="team-circle" style="background-color: <%= game.away.colour %>"></span>
         </div>
       </div>
-      <div class="game-meta">
-        <small class="game-time"><%= game.game_time.strftime('%A, %l:%M %p') rescue '' %></small>
-      </div>
+      
     <% end %>
   <% end %>
 </div>
