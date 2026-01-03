@@ -142,3 +142,14 @@
 }
 
 
+/* Total row tweaks: make totals align with half scores and slightly larger */
+.half-row[data-half="total"] .score-controls {
+  min-width: 120px;
+  justify-content: center;
+}
+.half-row[data-half="total"] .score-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+
