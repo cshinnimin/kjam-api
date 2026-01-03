@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       patch :decrement_home_half1
       patch :increment_away_half1
       patch :decrement_away_half1
+      patch :increment_home_half2
+      patch :decrement_home_half2
+      patch :increment_away_half2
+      patch :decrement_away_half2
     end
   end
   root "games#index"
