@@ -1,0 +1,25 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file. We declare the font-face below and then apply the font
+ * globally so the whole app uses `Quantico-Regular.ttf`.
+ */
+
+@import "games";
+
+@font-face {
+  font-family: 'Quantico';
+  src: url(<%= asset_path 'Quantico-Regular.ttf' %>) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --app-font: "Quantico", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body, * {
+  font-family: var(--app-font) !important;
+}

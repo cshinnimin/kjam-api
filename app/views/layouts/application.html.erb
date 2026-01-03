@@ -11,6 +11,16 @@
 
     <%= yield :head %>
 
+    <style>
+      @font-face {
+        font-family: 'Quantico';
+        src: url(<%= asset_path 'Quantico-Regular.ttf' %>) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
