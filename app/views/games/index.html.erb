@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="game-meta">
-        <small class="game-time"><%= game.game_time.strftime('%b %d %l:%M %P') rescue '' %></small>
+        <small class="game-time"><%= game.game_time.strftime('%A, %l:%M %p') rescue '' %></small>
       </div>
     <% end %>
   <% end %>
