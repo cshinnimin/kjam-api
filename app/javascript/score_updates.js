@@ -33,6 +33,7 @@ function attachScoreButtons() {
           const data = await resp.json()
           // update DOM values
           const parent = node.closest('.half-row')
+          const gameShow = node.closest('.game-show')
           if (data.home_score_half_1 !== undefined) {
             const el = parent.querySelector('[data-home-score]')
             if (el) el.textContent = data.home_score_half_1
@@ -48,6 +49,22 @@ function attachScoreButtons() {
           if (data.away_score_half_2 !== undefined) {
             const el = parent.querySelector('[data-away-score]')
             if (el) el.textContent = data.away_score_half_2
+          }
+          // recompute totals (home and away) from half 1 + half 2
+          try {
+            const getInt = (el) => el ? (parseInt(el.textContent, 10) || 0) : 0
+            const home1El = gameShow.querySelector('.half-row[data-half="1"] [data-home-score]')
+            const home2El = gameShow.querySelector('.half-row[data-half="2"] [data-home-score]')
+            const away1El = gameShow.querySelector('.half-row[data-half="1"] [data-away-score]')
+            const away2El = gameShow.querySelector('.half-row[data-half="2"] [data-away-score]')
+            const homeTotalEl = gameShow.querySelector('[data-home-total]')
+            const awayTotalEl = gameShow.querySelector('[data-away-total]')
+            const homeTotal = getInt(home1El) + getInt(home2El)
+            const awayTotal = getInt(away1El) + getInt(away2El)
+            if (homeTotalEl) homeTotalEl.textContent = homeTotal
+            if (awayTotalEl) awayTotalEl.textContent = awayTotal
+          } catch (e) {
+            // ignore total calc errors
           }
         } catch (err) {
           console.error('Score update failed', err)
