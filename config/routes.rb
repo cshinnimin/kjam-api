@@ -24,5 +24,8 @@ Rails.application.routes.draw do
       patch :toggle_complete
     end
   end
+  # Hidden API endpoint returning JSON results for all games
+  get "/api/results", to: "api/results#index"
+
   root "games#index"
 end
