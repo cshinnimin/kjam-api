@@ -19,7 +19,9 @@ module Api
         }
       end
 
-      render json: { games: games }
+      standings = StandingsCalculator.standings
+
+      render json: { standings: standings, games: games }
     end
   end
 end

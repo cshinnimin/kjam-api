@@ -65,4 +65,97 @@ class StandingsCalculator
       )
     end
   end
+
+  # Returns an array of standings hashes sorted by the rules:
+  # 1) pts desc
+  # 2) w desc
+  # 3) if tied and exactly two teams share pts & w, use head-to-head aggregate total (greater total wins)
+  # 4) goal differential (gf - ga) desc
+  def self.standings
+    teams = Team.select(:id, :name, :colour, :gp, :w, :l, :t, :gf, :ga, :hw, :pts).map do |t|
+      {
+        id: t.id,
+        team_name: t.name,
+        team_color: t.colour,
+        gp: t.gp.to_i,
+        w: t.w.to_i,
+        l: t.l.to_i,
+        t: t.t.to_i,
+        gf: t.gf.to_i,
+        ga: t.ga.to_i,
+        hw: t.hw.to_i,
+        pts: t.pts.to_i
+      }
+    end
+
+    # tie group counts for pts & w
+    tie_counts = Hash.new(0)
+    teams.each { |s| tie_counts[[s[:pts], s[:w]]] += 1 }
+
+    # cache head-to-head aggregates between two teams
+    h2h_cache = {}
+    compute_h2h = lambda do |a_id, b_id|
+      key = [a_id, b_id].sort.join("-")
+      return h2h_cache[key] if h2h_cache.key?(key)
+
+      a_total = 0
+      b_total = 0
+
+      Game.where(complete: true).where(home_id: [a_id, b_id], away_id: [a_id, b_id]).find_each do |g|
+        home_total = g.home_score_half_1.to_i + g.home_score_half_2.to_i
+        away_total = g.away_score_half_1.to_i + g.away_score_half_2.to_i
+
+        if g.home_id == a_id && g.away_id == b_id
+          a_total += home_total
+          b_total += away_total
+        elsif g.home_id == b_id && g.away_id == a_id
+          a_total += away_total
+          b_total += home_total
+        end
+      end
+
+      h2h_cache[key] = [a_total, b_total]
+      h2h_cache[key]
+    end
+
+    sorted = teams.sort do |a, b|
+      # pts desc
+      c = b[:pts] <=> a[:pts]
+      next c unless c == 0
+
+      # wins desc
+      c = b[:w] <=> a[:w]
+      next c unless c == 0
+
+      # if exactly two teams are tied on pts & w, use head-to-head aggregate
+      if tie_counts[[a[:pts], a[:w]]] == 2
+        a_h2h, b_h2h = compute_h2h.call(a[:id], b[:id])
+        if a_h2h != b_h2h
+          c = b_h2h <=> a_h2h
+          next c
+        end
+      end
+
+      # goal differential desc
+      adiff = a[:gf].to_i - a[:ga].to_i
+      bdiff = b[:gf].to_i - b[:ga].to_i
+      bdiff <=> adiff
+    end
+
+    # return only the requested keys (exclude internal id)
+    sorted.map do |s|
+      {
+        team_name: s[:team_name],
+        team_color: s[:team_color],
+        gp: s[:gp],
+        w: s[:w],
+        l: s[:l],
+        t: s[:t],
+        gf: s[:gf],
+        ga: s[:ga],
+        hw: s[:hw],
+        pts: s[:pts]
+      }
+    end
+  end
 end
