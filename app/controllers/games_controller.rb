@@ -43,6 +43,8 @@ class GamesController < ApplicationController
     game = Game.find(params[:id])
     game.complete = !game.complete
     if game.save
+      # Recalculate standings when a game is marked complete
+      StandingsCalculator.calculate! if game.complete
       render json: { complete: game.complete }
     else
       render json: { errors: game.errors.full_messages }, status: :unprocessable_entity
